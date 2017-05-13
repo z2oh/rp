@@ -1,0 +1,7 @@
+[package]
+name = "rp"
+version = "0.1.0"
+authors = ["Jeremy Day <jadaytime@gmail.com>"]
+
+[dependencies]
+curl = "0.4.6"
