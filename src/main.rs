@@ -16,19 +16,33 @@ fn main() {
 				let res = try_read_paste(&*arg);
 				match res {
 					Ok(v) => println!("{}", v),
-					Err(e) => println!("GET failed with error: {}", e),
+					Err(e) => {
+						println!("GET failed with error: {}", e);
+						println!("Are you connected to the internet?");
+					},
 				}
 				return;
-			}
-			_ => { println!("Invalid argument! Usage: `rp <key>` where <key> is a hastebin key matching ([a-z]{{10}})"); return; }
+			},
+			_ => {
+				println!("Invalid argument! Usage: `rp <key>` where <key> is a hastebin key matching ([a-z]{{10}})");
+				return;
+			},
 		}
 	}
 	// Reading input to make a new paste.
 	let buffer = read_input().unwrap();
 	let res2 = try_post_paste(&*buffer);
-	let mut key = res2.unwrap().split_off(8);
-	key.split_off(10);
-	println!("{}", key);
+	match res2 {
+		Ok(mut v) => {
+			let mut key = v.split_off(8);
+			key.split_off(10);
+			println!("{}", key);
+		},
+		Err(e) => {
+			println!("POST failed with error: {}", e);
+			println!("Are you connected to the internet?");
+		},
+	}
 }
 
 // Returns true if the key is 10 lowercase characters long.
